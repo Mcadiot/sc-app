@@ -1,14 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
+import { Content } from "./app/common/components/technical/Content";
+import { routes } from "./app/routes/routes";
+import { store } from "./app/stores/store";
+import { lightTheme } from "./ressources/themes/light";
+import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  <Router>
+    <Provider store={store}>
+      <ThemeProvider theme={lightTheme}>
+        <Content>
+          <Switch>
+            {routes.map((route, i) => (
+              <Route path={route.path}>
+                <route.component {...route} />
+              </Route>
+            ))}
+          </Switch>
+        </Content>
+      </ThemeProvider>
+    </Provider>
+  </Router>,
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
