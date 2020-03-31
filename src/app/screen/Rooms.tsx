@@ -1,7 +1,69 @@
+import { faTh } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { connect } from "react-redux";
+import { Booking } from "../common/class/Booking";
+import { Resource } from "../common/class/Resource";
+import { RoomCard } from "../common/components/business/RoomCard";
+import { Title } from "../common/components/technical/Title";
+import { isRoomOccupied } from "../common/utils/bookingUtils";
+import AppStore from "../stores/AppStore";
+import { getResource } from "../stores/resource/resourceAction";
 
-function Rooms() {
-  return <div>todo</div>;
+interface IProps {}
+
+interface StateToProps {
+  resource?: Resource;
+  isLoggedIn: boolean;
+  bookings?: Booking[];
 }
 
-export default Rooms;
+interface DispatchProps {
+  doGetResource: () => void;
+}
+
+export type RoomsProps = IProps & StateToProps & DispatchProps;
+
+const Rooms: React.FC<RoomsProps> = ({ doGetResource, resource, isLoggedIn, bookings }) => {
+  const [isOccupied, setIsOccupied] = React.useState(false);
+
+  React.useEffect(() => {
+    if (bookings) {
+      setIsOccupied(isRoomOccupied(bookings));
+    }
+  }, [bookings]);
+
+  const doGetResourceCallBack = React.useCallback(() => {
+    doGetResource();
+  }, [doGetResource]);
+
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      doGetResourceCallBack();
+    }
+  }, [doGetResourceCallBack, isLoggedIn]);
+
+  return (
+    <div>
+      <Title>
+        <FontAwesomeIcon icon={faTh} />
+        Salles
+      </Title>
+      {isLoggedIn ? (
+        <>{resource ? <RoomCard resource={resource} isOccupied={isOccupied} /> : "Aucune salle"}</>
+      ) : (
+        "Vous devez être connecté pour voir les données des salles"
+      )}
+    </div>
+  );
+};
+
+const mapStateToProps = ({ resource, user }: AppStore): StateToProps => {
+  return { resource: resource.resource, bookings: resource.bookings, isLoggedIn: user.isLoggedIn };
+};
+
+const mapDispatchToProps = (dispatch: any): DispatchProps => ({
+  doGetResource: () => dispatch(getResource())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Rooms);

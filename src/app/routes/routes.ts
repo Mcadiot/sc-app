@@ -4,11 +4,11 @@ import { roomUrl } from "./routesConstants";
 
 export const routes = [
   {
-    path: "",
-    component: Rooms
-  },
-  {
     path: roomUrl,
     component: Room
+  },
+  {
+    path: "",
+    component: Rooms
   }
 ];

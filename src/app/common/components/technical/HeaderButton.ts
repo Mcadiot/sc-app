@@ -18,5 +18,6 @@ export const HeaderButton = styled.button`
 
   svg {
     padding-right: 0.5em;
+    margin-left: 0;
   }
 `;

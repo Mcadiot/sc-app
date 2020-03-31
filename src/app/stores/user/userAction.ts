@@ -80,7 +80,7 @@ interface ErrorLogoutAction {
 }
 
 export const logout = () => {
-  return (dispatch: Dispatch<UserAction>, getState: any) => {
+  return (dispatch: Dispatch<UserAction>, getState: Function) => {
     const state = getState();
     if (state.user) {
       const token = state.user.token;
