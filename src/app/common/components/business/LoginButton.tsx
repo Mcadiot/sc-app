@@ -3,23 +3,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { connect } from "react-redux";
 import { login } from "../../../stores/user/userAction";
-import { HeaderButton } from "./HeaderButton";
-import { RightDiv } from "./RightDiv";
+import { HeaderButton } from "../technical/HeaderButton";
 
 interface DispatchProps {
   doLogin: () => void;
 }
 
-export type ConnexionButtonProps = DispatchProps;
+export type LoginButtonProps = DispatchProps;
 
-const ConnexionButton: React.FC<ConnexionButtonProps> = ({ doLogin }) => {
+const LoginButton: React.FC<LoginButtonProps> = ({ doLogin }) => {
   return (
-    <RightDiv>
-      <HeaderButton onClick={doLogin}>
-        <FontAwesomeIcon icon={faSignInAlt} />
-        Se connecter
-      </HeaderButton>
-    </RightDiv>
+    <HeaderButton onClick={doLogin}>
+      <FontAwesomeIcon icon={faSignInAlt} />
+      Se connecter
+    </HeaderButton>
   );
 };
 
@@ -27,4 +24,4 @@ const mapDispatchToProps = (dispatch: any): DispatchProps => ({
   doLogin: () => dispatch(login())
 });
 
-export default connect(null, mapDispatchToProps)(ConnexionButton);
+export default connect(null, mapDispatchToProps)(LoginButton);

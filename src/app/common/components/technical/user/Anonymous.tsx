@@ -1,6 +1,11 @@
 import React from "react";
-import ConnexionButton from "../ConnexionButton";
+import LoginButton from "../../business/LoginButton";
+import { RightDiv } from "../RightDiv";
 
 export const Anonymous: React.FC = () => {
-  return <ConnexionButton />;
+  return (
+    <RightDiv>
+      <LoginButton />
+    </RightDiv>
+  );
 };

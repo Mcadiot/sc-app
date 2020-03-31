@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import AppStore from "../../../stores/AppStore";
 import { BoldSpan } from "../technical/BoldSpan";
 import { RightDiv } from "../technical/RightDiv";
+import LogoutButton from "./LogoutButton";
 interface StateToProps {
   userName: string;
 }
@@ -16,6 +17,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({ userName }) => {
     <RightDiv>
       <BoldSpan>{userName}</BoldSpan>
       <FontAwesomeIcon icon={faUserCircle} title="Utilisateur" />
+      <LogoutButton />
     </RightDiv>
   );
 };

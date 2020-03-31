@@ -2,7 +2,7 @@ import { Dispatch } from "react";
 import { DataLogin } from "../../common/class/DataLogin";
 import { UserInfo } from "../../common/class/UserInfo";
 import { axiosInstance } from "../axios";
-import { loginUrl, meUrl } from "../constants";
+import { loginUrl, logoutUrl, meUrl } from "../constants";
 
 interface LoginAction {
   readonly type: "LOGIN";
@@ -67,6 +67,43 @@ export const getMe = (token: string) => {
   };
 };
 
+interface LogoutAction {
+  readonly type: "LOGOUT";
+}
+
+interface ReceiveLogoutAction {
+  readonly type: "RECEIVE_LOGOUT";
+}
+
+interface ErrorLogoutAction {
+  readonly type: "ERROR_LOGOUT";
+}
+
+export const logout = () => {
+  return (dispatch: Dispatch<UserAction>, getState: any) => {
+    const state = getState();
+    if (state.user) {
+      const token = state.user.token;
+      dispatch({ type: "LOGOUT" });
+      axiosInstance
+        .get(logoutUrl, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then(r => r.data)
+        .then(() => {
+          dispatch({ type: "RECEIVE_LOGOUT" });
+        })
+        .catch(e => {
+          dispatch({ type: "ERROR_LOGOUT" });
+        });
+    } else {
+      dispatch({ type: "ERROR_LOGOUT" });
+    }
+  };
+};
+
 export type UserAction =
   | ReceiveLoginAction
   | LoginAction
@@ -74,4 +111,7 @@ export type UserAction =
   | ErrorLoginAction
   | GetMeAction
   | ReceiveGetMeAction
-  | ErrorGetMeAction;
+  | ErrorGetMeAction
+  | LogoutAction
+  | ReceiveLogoutAction
+  | ErrorLogoutAction;
