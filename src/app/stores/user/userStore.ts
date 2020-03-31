@@ -1,4 +1,7 @@
+import { UserInfo } from "../../common/class/UserInfo";
+
 export interface UserStore {
-  id: string;
   isLoggedIn: boolean;
+  token: string;
+  userInfo?: UserInfo;
 }

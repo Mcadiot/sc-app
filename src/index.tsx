@@ -1,30 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
-import { Content } from "./app/common/components/technical/Content";
-import { routes } from "./app/routes/routes";
+import App from "./app/screen/App";
 import { store } from "./app/stores/store";
+import "./index.css";
 import { lightTheme } from "./ressources/themes/light";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
-  <Router>
-    <Provider store={store}>
-      <ThemeProvider theme={lightTheme}>
-        <Content>
-          <Switch>
-            {routes.map((route, i) => (
-              <Route path={route.path}>
-                <route.component {...route} />
-              </Route>
-            ))}
-          </Switch>
-        </Content>
-      </ThemeProvider>
-    </Provider>
-  </Router>,
+  <Provider store={store}>
+    <ThemeProvider theme={lightTheme}>
+      <Router>
+        <App />
+      </Router>
+    </ThemeProvider>
+  </Provider>,
   document.getElementById("root")
 );
 

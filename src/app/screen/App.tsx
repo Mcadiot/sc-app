@@ -1,10 +1,14 @@
 import React from "react";
+import { Banner } from "../common/components/technical/Banner";
+import { Content } from "../common/components/technical/Content";
+import { Routes } from "../common/components/technical/Routes";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">todo</header>
-    </div>
+    <Content>
+      <Banner />
+      <Routes />
+    </Content>
   );
 }
 

@@ -1,5 +1,6 @@
 import { Dispatch } from "react";
-import { RouterAction } from "react-router-redux";
+import { DataLogin } from "../../common/class/DataLogin";
+import { UserInfo } from "../../common/class/UserInfo";
 import { axiosInstance } from "../axios";
 import { loginUrl, meUrl } from "../constants";
 
@@ -9,7 +10,7 @@ interface LoginAction {
 
 interface ReceiveLoginAction {
   readonly type: "RECEIVE_LOGIN";
-  readonly payload: any;
+  readonly payload: DataLogin;
 }
 
 interface ErrorLoginAction {
@@ -21,8 +22,11 @@ export const login = () => {
     dispatch({ type: "LOGIN" });
     axiosInstance
       .get(loginUrl)
+      .then(r => r.data)
       .then(json => {
-        dispatch({ type: "RECEIVE_LOGIN", payload: json });
+        var data: DataLogin = json.data;
+        dispatch({ type: "RECEIVE_LOGIN", payload: data });
+        getMe(json.data.token)(dispatch);
       })
       .catch(e => {
         dispatch({ type: "ERROR_LOGIN" });
@@ -43,13 +47,19 @@ export interface ErrorGetMeAction {
   readonly type: "ERROR_GET_ME";
 }
 
-export const geMe = () => {
+export const getMe = (token: string) => {
   return (dispatch: Dispatch<UserAction>) => {
     dispatch({ type: "GET_ME" });
     axiosInstance
-      .get(meUrl)
+      .get(meUrl, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(r => r.data)
       .then(json => {
-        dispatch({ type: "RECEIVE_GET_ME", payload: json });
+        var data: UserInfo = json.data;
+        dispatch({ type: "RECEIVE_GET_ME", payload: data });
       })
       .catch(e => {
         dispatch({ type: "ERROR_GET_ME" });
@@ -64,5 +74,4 @@ export type UserAction =
   | ErrorLoginAction
   | GetMeAction
   | ReceiveGetMeAction
-  | ErrorGetMeAction
-  | RouterAction;
+  | ErrorGetMeAction;
