@@ -7,7 +7,7 @@ import { Resource } from "../../class/Resource";
 import { Card } from "../technical/Card";
 import { GreenCircleDiv, RedCircleDiv } from "../technical/CircleDiv";
 import { ColoredName } from "../technical/ColoredName";
-import { LinkDiv } from "../technical/Link";
+import { LinkDiv } from "../technical/LinkDiv";
 
 interface IProps {
   resource: Resource;
@@ -32,9 +32,19 @@ const OccupiedDivEmpty = styled(OccupiedDivOccupied)`
   color: ${props => props.theme.colors.freeRoomColor};
 `;
 
+const FullDiv = styled.div`
+  height: 100%;
+  width: 100%;
+`;
+
+const CardContainer = styled(Card)`
+  max-width: 20em;
+  min-height: 20em;
+`;
+
 export const RoomCard: React.FC<LoginButtonProps> = props => {
   return (
-    <Card>
+    <CardContainer>
       {props.isOccupied ? (
         <OccupiedDivOccupied>
           <RedCircleDiv />
@@ -46,13 +56,15 @@ export const RoomCard: React.FC<LoginButtonProps> = props => {
           Salle libre
         </OccupiedDivEmpty>
       )}
-      <ColoredName>{props.resource.name}</ColoredName>
+      <FullDiv>
+        <ColoredName>{props.resource.name}</ColoredName>
+      </FullDiv>
       <ButtonDiv>
         <LinkDiv to={`${roomBaseUrl}/${props.resource.id}`}>
           <FontAwesomeIcon icon={faPlusCircle} title="Utilisateur" />
           Détails
         </LinkDiv>
       </ButtonDiv>
-    </Card>
+    </CardContainer>
   );
 };

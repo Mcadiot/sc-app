@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { Booking } from "../common/class/Booking";
 import { Resource } from "../common/class/Resource";
 import { RoomCard } from "../common/components/business/RoomCard";
+import { Login } from "../common/components/technical/Login";
 import { Title } from "../common/components/technical/Title";
 import { isRoomOccupied } from "../common/utils/bookingUtils";
 import AppStore from "../stores/AppStore";
@@ -45,21 +46,24 @@ const Rooms: React.FC<RoomsProps> = ({ doGetResource, resource, isLoggedIn, book
 
   return (
     <div>
-      <Title>
-        <FontAwesomeIcon icon={faTh} />
-        Salles
-      </Title>
       {isLoggedIn ? (
-        <>{resource ? <RoomCard resource={resource} isOccupied={isOccupied} /> : "Aucune salle"}</>
+        <>
+          <Title>
+            <FontAwesomeIcon icon={faTh} />
+            Salles
+          </Title>
+
+          {resource ? <RoomCard resource={resource} isOccupied={isOccupied} /> : "Aucune salle"}
+        </>
       ) : (
-        "Vous devez être connecté pour voir les données des salles"
+        <Login />
       )}
     </div>
   );
 };
 
-const mapStateToProps = ({ resource, user }: AppStore): StateToProps => {
-  return { resource: resource.resource, bookings: resource.bookings, isLoggedIn: user.isLoggedIn };
+const mapStateToProps = ({ resource, user, booking }: AppStore): StateToProps => {
+  return { resource: resource.resource, bookings: booking.bookings, isLoggedIn: user.isLoggedIn };
 };
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => ({

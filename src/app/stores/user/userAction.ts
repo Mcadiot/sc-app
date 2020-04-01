@@ -1,8 +1,9 @@
 import { Dispatch } from "react";
 import { DataLogin } from "../../common/class/DataLogin";
 import { UserInfo } from "../../common/class/UserInfo";
+import { UserName } from "../../common/class/UsersNames";
 import { axiosInstance } from "../axios";
-import { loginUrl, logoutUrl, meUrl } from "../constants";
+import { loginUrl, logoutUrl, meUrl, userUrl } from "../constants";
 
 interface LoginAction {
   readonly type: "LOGIN";
@@ -40,7 +41,7 @@ interface GetMeAction {
 
 interface ReceiveGetMeAction {
   readonly type: "RECEIVE_GET_ME";
-  readonly payload: any;
+  readonly payload: UserInfo;
 }
 
 export interface ErrorGetMeAction {
@@ -104,6 +105,45 @@ export const logout = () => {
   };
 };
 
+interface GetUserAction {
+  readonly type: "GET_USER";
+}
+
+interface ReceiveGetUserAction {
+  readonly type: "RECEIVE_GET_USER";
+  readonly payload: UserName;
+}
+
+interface ErrorGetUserAction {
+  readonly type: "Error_GET_USER";
+}
+
+export const getUser = (userId: string) => {
+  return (dispatch: Dispatch<UserAction>, getState: Function) => {
+    const state = getState();
+    if (state.user) {
+      const token = state.user.token;
+      dispatch({ type: "GET_USER" });
+      axiosInstance
+        .get(`${userUrl}/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then(r => r.data)
+        .then(json => {
+          const name: UserName = json.data;
+          dispatch({ type: "RECEIVE_GET_USER", payload: name });
+        })
+        .catch(e => {
+          dispatch({ type: "Error_GET_USER" });
+        });
+    } else {
+      dispatch({ type: "Error_GET_USER" });
+    }
+  };
+};
+
 export type UserAction =
   | ReceiveLoginAction
   | LoginAction
@@ -114,4 +154,7 @@ export type UserAction =
   | ErrorGetMeAction
   | LogoutAction
   | ReceiveLogoutAction
-  | ErrorLogoutAction;
+  | ErrorLogoutAction
+  | GetUserAction
+  | ReceiveGetUserAction
+  | ErrorGetUserAction;

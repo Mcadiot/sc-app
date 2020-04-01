@@ -3,7 +3,10 @@ import { UserOrAnonymousContainer } from "../business/UserOrAnonymous";
 import { FlexDiv } from "./FlexDiv";
 import { Header } from "./Header";
 
-export const Banner: React.FC = () => {
+interface BannerProps {
+  backUrl?: string;
+}
+export const Banner: React.FC<BannerProps> = ({ backUrl }) => {
   return (
     <Header>
       <FlexDiv>

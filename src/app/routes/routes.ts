@@ -1,6 +1,6 @@
-import { Room } from "../screen/Room";
+import Room from "../screen/Room";
 import Rooms from "../screen/Rooms";
-import { roomUrl } from "./routesConstants";
+import { roomsUrl, roomUrl } from "./routesConstants";
 
 export const routes = [
   {
@@ -8,7 +8,7 @@ export const routes = [
     component: Room
   },
   {
-    path: "",
+    path: roomsUrl,
     component: Rooms
   }
 ];

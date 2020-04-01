@@ -7,8 +7,8 @@ import { routes } from "../routes/routes";
 function App() {
   return (
     <Content>
-      <Banner />
       <Router>
+        <Banner />
         <Switch>
           {routes.map((route, i) => (
             <Route path={route.path} key={i}>
