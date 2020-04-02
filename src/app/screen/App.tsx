@@ -6,18 +6,20 @@ import { routes } from "../routes/routes";
 
 function App() {
   return (
-    <Content>
-      <Router>
-        <Banner />
-        <Switch>
-          {routes.map((route, i) => (
-            <Route path={route.path} key={i}>
-              <route.component {...route} />
-            </Route>
-          ))}
-        </Switch>
-      </Router>
-    </Content>
+    <main>
+      <Content>
+        <Router>
+          <Banner />
+          <Switch>
+            {routes.map((route, i) => (
+              <Route path={route.path} key={i}>
+                <route.component {...route} />
+              </Route>
+            ))}
+          </Switch>
+        </Router>
+      </Content>
+    </main>
   );
 }
 

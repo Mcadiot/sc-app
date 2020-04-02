@@ -4,16 +4,17 @@ import React, { useContext } from "react";
 import { connect } from "react-redux";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import styled, { ThemeContext } from "styled-components";
-import AppStore from "../../../stores/AppStore";
-import { getUser } from "../../../stores/user/userAction";
-import { Booking } from "../../class/Booking";
-import { UsersNames } from "../../class/UsersNames";
-import { isBookingPassed, isCurrentBooking } from "../../utils/bookingUtils";
+import AppStore from "../../../../stores/AppStore";
+import { getUser } from "../../../../stores/user/userAction";
+import { Booking } from "../../../class/Booking";
+import { UsersNames } from "../../../class/UsersNames";
+import { isBookingPassed, isCurrentBooking } from "../../../utils/bookingUtils";
 import { BookingResume } from "./BookingResume";
 
 interface StateToProps {
   users: UsersNames;
   userId: string;
+  currentUserName: string;
 }
 
 interface DispatchProps {
@@ -29,13 +30,27 @@ const Icon = styled(FontAwesomeIcon)`
 `;
 
 const CurrentVerticalTimelineElement = styled(VerticalTimelineElement)`
-  background-color: ${props => props.theme.colors.timelineCurrentBackgroundColor};
-  color: ${props => props.theme.colors.timelineCurrentColor};
+  .vertical-timeline-element-content.bounce-in {
+    background-color: ${props => props.theme.colors.timelineCurrentBackgroundColor};
+    color: ${props => props.theme.colors.timelineCurrentColor};
+  }
+  .vertical-timeline-element-content-arrow {
+    border-right-color: ${props => props.theme.colors.timelineCurrentBackgroundColor};
+  }
+
+  .delete-button-div {
+    border: ${props => props.theme.icon.deleteIConBorder};
+
+    .delete-icon {
+      margin-left: 0.45em;
+      margin-top: 0.25em;
+    }
+  }
 `;
 
 export type BookingTimelineElementProps = IProps & StateToProps & DispatchProps;
 
-const BookingTimelineElement: React.FC<BookingTimelineElementProps> = ({ booking, users, doGetUser, userId }) => {
+const BookingTimelineElement: React.FC<BookingTimelineElementProps> = ({ booking, users, doGetUser, userId, currentUserName }) => {
   const [userName, setUserName] = React.useState("");
 
   const themeContext = useContext(ThemeContext);
@@ -62,19 +77,23 @@ const BookingTimelineElement: React.FC<BookingTimelineElementProps> = ({ booking
   if (isCurrentBooking(booking)) {
     return (
       <CurrentVerticalTimelineElement iconStyle={{ background: iconBackgroundColor, color: iconColor }} icon={<Icon icon={faCalendar} />}>
-        <BookingResume booking={booking} currentUserId={userId} userName={userName} />
+        <BookingResume booking={booking} currentUserId={userId} userName={userName} currentUserName={currentUserName} />
       </CurrentVerticalTimelineElement>
     );
   }
   return (
     <VerticalTimelineElement iconStyle={{ background: iconBackgroundColor, color: iconColor }} icon={<Icon icon={faCalendar} />}>
-      <BookingResume booking={booking} currentUserId={userId} userName={userName} />
+      <BookingResume booking={booking} currentUserId={userId} userName={userName} currentUserName={currentUserName} />
     </VerticalTimelineElement>
   );
 };
 
 const mapStateToProps = ({ user }: AppStore): StateToProps => {
-  return { users: user.users, userId: user.userInfo ? user.userInfo.id : "" };
+  return {
+    users: user.users,
+    userId: user.userInfo ? user.userInfo.id : "",
+    currentUserName: user.userInfo && user.userInfo.name ? user.userInfo.name : ""
+  };
 };
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => ({

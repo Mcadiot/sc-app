@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { Booking } from "../common/class/Booking";
 import { Resource } from "../common/class/Resource";
 import { RoomCard } from "../common/components/business/RoomCard";
+import { FlexDiv } from "../common/components/technical/FlexDiv";
 import { Login } from "../common/components/technical/Login";
 import { Title } from "../common/components/technical/Title";
 import { isRoomOccupied } from "../common/utils/bookingUtils";
@@ -56,7 +57,9 @@ const Rooms: React.FC<RoomsProps> = ({ doGetResource, resource, isLoggedIn, book
           {resource ? <RoomCard resource={resource} isOccupied={isOccupied} /> : "Aucune salle"}
         </>
       ) : (
-        <Login />
+        <FlexDiv>
+          <Login />
+        </FlexDiv>
       )}
     </div>
   );

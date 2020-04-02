@@ -1,11 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import styled from "styled-components";
 import { Booking } from "../common/class/Booking";
 import { Resource } from "../common/class/Resource";
-import { BookingFilters } from "../common/components/business/BookingFilters";
-import { BookingTimeline } from "../common/components/business/BookingTimeline";
-import CurrentBooking from "../common/components/business/CurrentBooking";
+import { BookingFilters } from "../common/components/business/booking/BookingFilters";
+import { BookingTimeline } from "../common/components/business/booking/BookingTimeline";
+import { CreateBookingModal } from "../common/components/business/booking/CreateBookingModal";
+import CurrentBooking from "../common/components/business/booking/CurrentBooking";
 import { Panel, PanelLeft, PanelRight } from "../common/components/technical/Panel";
 import AppStore from "../stores/AppStore";
 import { getBookings } from "../stores/booking/bookingAction";
@@ -23,10 +25,16 @@ interface DispatchProps {
   doGetBookings: () => void;
 }
 
+const PageTitle = styled.h1`
+  font-size: 150%;
+  word-break: break-word;
+`;
+
 export type RoomProps = StateToProps & DispatchProps;
 
 const Room: React.FC<RoomProps> = ({ bookings, resource, userId, doGetBookings, isLoggedIn }) => {
   const [visibleBookings, setVisibleBookings] = React.useState(bookings);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   const onFilter = React.useCallback(
     (isOnlyUser: boolean) => {
@@ -41,6 +49,10 @@ const Room: React.FC<RoomProps> = ({ bookings, resource, userId, doGetBookings, 
   );
 
   React.useEffect(() => {
+    setVisibleBookings(bookings);
+  }, [bookings]);
+
+  React.useEffect(() => {
     if (bookings == null) {
       doGetBookings();
     }
@@ -50,15 +62,24 @@ const Room: React.FC<RoomProps> = ({ bookings, resource, userId, doGetBookings, 
     return <Redirect to="" />;
   }
 
+  const openModale = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModale = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <Panel>
+      {resource && bookings && <CreateBookingModal isOpen={isModalOpen} resource={resource} bookings={bookings} onClose={closeModale} />}
       <PanelLeft>
         <CurrentBooking bookings={bookings} />
       </PanelLeft>
       <PanelRight>
-        {/*<h1>Réunions de la salle {resource && resource.name}</h1>*/}
+        <PageTitle>Réunions de la salle {resource && resource.name}</PageTitle>
         <div>
-          <BookingFilters onFilter={onFilter} />
+          <BookingFilters onFilter={onFilter} openModale={openModale} />
         </div>
         <div>
           {visibleBookings != null && visibleBookings.length > 0 ? <BookingTimeline bookings={visibleBookings} /> : "Aucune réunion de prévu"}

@@ -1,5 +1,6 @@
 import moment from "moment";
 import { Booking } from "../class/Booking";
+import { Resource } from "../class/Resource";
 
 export function isRoomOccupied(bookings: Booking[]): boolean {
   if (bookings.length === 0) {
@@ -56,12 +57,16 @@ export function getCurrentBooking(bookings: Booking[]): Booking | null {
 
 /**
  * Bookings doit être ordonné par date de début croissante
+ * @returns la prochaine réunion si celle ci n'est pas la réunion courrante
  */
 export function getNextBooking(bookings: Booking[]): Booking | null {
   const now = moment();
+  const current = getCurrentBooking(bookings);
   for (let booking of bookings) {
     if (booking.start && booking.start.isAfter(now)) {
-      return booking;
+      if (!(current && current.id === booking.id)) {
+        return booking;
+      }
     }
   }
   return null;
@@ -69,14 +74,61 @@ export function getNextBooking(bookings: Booking[]): Booking | null {
 
 /**
  * Bookings doit être ordonné par date de début croissante
+ *  @returns la dernière réunion si celle ci n'est pas la même que la réunion courrante
  */
 export function getPreviousBooking(bookings: Booking[]): Booking | null {
   const now = moment();
   let previous = null;
   for (let booking of bookings) {
-    if (booking.start && booking.start.isBefore(now)) {
+    if (booking.start && booking.start.isBefore(now) && booking.end && booking.end.isBefore(now)) {
       previous = booking;
     }
   }
   return previous;
+}
+
+export function getPossibleMaxDuration(resource: Resource, bookings: Booking[]): number {
+  const { maximumBookingDuration } = resource;
+  const current = getCurrentBooking(bookings);
+  if (current != null) {
+    return 0;
+  } else {
+    const nextBooking = getNextBooking(bookings);
+    if (nextBooking) {
+      const start = nextBooking.start;
+      if (start) {
+        const now = moment();
+        const ms = start.diff(now);
+        const d = moment.duration(ms);
+        const minutesBeforeNext = d.hours() * 60 + d.minutes();
+        return calculateMaxDuration(resource, minutesBeforeNext);
+      }
+    }
+  }
+  return maximumBookingDuration;
+}
+
+export function calculateMaxDuration(resource: Resource, minutesBeforeNext: number): number {
+  const { minimumBookingDuration, maximumBookingDuration, bookingDurationStep } = resource;
+  if (minutesBeforeNext >= maximumBookingDuration) {
+    return maximumBookingDuration;
+  } else if (minutesBeforeNext === minimumBookingDuration) {
+    return minimumBookingDuration;
+  } else if (minutesBeforeNext > minimumBookingDuration) {
+    let duration = minimumBookingDuration;
+    while (duration + bookingDurationStep <= minutesBeforeNext) {
+      duration += bookingDurationStep;
+    }
+    return duration;
+  }
+
+  return 0;
+}
+
+export function getDurations(min: number, max: number, step: number): number[] {
+  const durations: number[] = [];
+  for (let i = min; i <= max; i = i + step) {
+    durations.push(i);
+  }
+  return durations;
 }

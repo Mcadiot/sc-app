@@ -40,6 +40,11 @@ const FullDiv = styled.div`
 const CardContainer = styled(Card)`
   max-width: 20em;
   min-height: 20em;
+
+  @media screen and (max-width: 350px) {
+    max-width: 18em;
+    min-height: 16em;
+  }
 `;
 
 export const RoomCard: React.FC<LoginButtonProps> = props => {

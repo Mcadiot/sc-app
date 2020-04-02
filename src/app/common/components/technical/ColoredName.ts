@@ -21,4 +21,8 @@ export const ColoredName = styled.h2`
   -webkit-line-clamp: N;
   word-break: break-word;
   overflow-y: auto;
+
+  @media screen and (max-width: 350px) {
+    height: 4em;
+  }
 `;

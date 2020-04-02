@@ -20,10 +20,18 @@ export const lightTheme = {
     timelineCurrentBackgroundColor: "#DF7B00",
     timelineCurrentColor: "#ffffff",
     deleteIconColor: "#ffffff",
-    deleteIconBackgroundColor: "#d93838"
+    deleteIconBackgroundColor: "#d93838",
+    errorBackgroundColor: "#d93838",
+    errorColor: "#ffffff"
   },
   font: {
     font: 'normal 500 1em / 1.250em "Roboto",Helvetica,Arial,Verdana,sans-serif',
     fontSize: "100%"
+  },
+  form: {
+    inputBorder: "1px solid #cbcbcb"
+  },
+  icon: {
+    deleteIConBorder: "2px solid white"
   }
 };
