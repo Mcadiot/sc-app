@@ -10,7 +10,7 @@ const DivContainer = styled(FlexDiv)`
   min-height: 3em;
   line-height: 3em;
 
-  @media screen and (max-width: 350px) {
+  @media screen and (max-width: 500px) {
     display: block;
 
     button {

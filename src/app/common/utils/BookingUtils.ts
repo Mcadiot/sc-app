@@ -6,7 +6,7 @@ export function isRoomOccupied(bookings: Booking[]): boolean {
   if (bookings.length === 0) {
     return false;
   } else {
-    const now = moment();
+    const now: moment.Moment = moment();
     for (let booking of bookings) {
       if (booking.start && booking.end && now.isAfter(booking.start) && now.isBefore(booking.end)) {
         return true;
@@ -31,7 +31,7 @@ export function sortBooking(bookings: Booking[]): Booking[] {
 }
 
 export function isBookingPassed(booking: Booking): boolean {
-  const now = moment();
+  const now: moment.Moment = moment();
   if (booking.start && now.isAfter(booking.start) && booking.end && now.isAfter(booking.end)) {
     return true;
   }
@@ -39,7 +39,7 @@ export function isBookingPassed(booking: Booking): boolean {
 }
 
 export function isCurrentBooking(booking: Booking): boolean {
-  const now = moment();
+  const now: moment.Moment = moment();
   if (booking.start && booking.end && now.isAfter(booking.start) && now.isBefore(booking.end)) {
     return true;
   }
@@ -60,8 +60,8 @@ export function getCurrentBooking(bookings: Booking[]): Booking | null {
  * @returns la prochaine réunion si celle ci n'est pas la réunion courrante
  */
 export function getNextBooking(bookings: Booking[]): Booking | null {
-  const now = moment();
-  const current = getCurrentBooking(bookings);
+  const now: moment.Moment = moment();
+  const current: Booking | null = getCurrentBooking(bookings);
   for (let booking of bookings) {
     if (booking.start && booking.start.isAfter(now)) {
       if (!(current && current.id === booking.id)) {
@@ -77,8 +77,8 @@ export function getNextBooking(bookings: Booking[]): Booking | null {
  *  @returns la dernière réunion si celle ci n'est pas la même que la réunion courrante
  */
 export function getPreviousBooking(bookings: Booking[]): Booking | null {
-  const now = moment();
-  let previous = null;
+  const now: moment.Moment = moment();
+  let previous: Booking | null = null;
   for (let booking of bookings) {
     if (booking.start && booking.start.isBefore(now) && booking.end && booking.end.isBefore(now)) {
       previous = booking;
@@ -89,7 +89,7 @@ export function getPreviousBooking(bookings: Booking[]): Booking | null {
 
 export function getPossibleMaxDuration(resource: Resource, bookings: Booking[]): number {
   const { maximumBookingDuration } = resource;
-  const current = getCurrentBooking(bookings);
+  const current: Booking | null = getCurrentBooking(bookings);
   if (current != null) {
     return 0;
   } else {
@@ -97,10 +97,10 @@ export function getPossibleMaxDuration(resource: Resource, bookings: Booking[]):
     if (nextBooking) {
       const start = nextBooking.start;
       if (start) {
-        const now = moment();
-        const ms = start.diff(now);
-        const d = moment.duration(ms);
-        const minutesBeforeNext = d.hours() * 60 + d.minutes();
+        const now: moment.Moment = moment();
+        const ms: number = start.diff(now);
+        const d: moment.Duration = moment.duration(ms);
+        const minutesBeforeNext: number = d.hours() * 60 + d.minutes();
         return calculateMaxDuration(resource, minutesBeforeNext);
       }
     }
@@ -115,7 +115,7 @@ export function calculateMaxDuration(resource: Resource, minutesBeforeNext: numb
   } else if (minutesBeforeNext === minimumBookingDuration) {
     return minimumBookingDuration;
   } else if (minutesBeforeNext > minimumBookingDuration) {
-    let duration = minimumBookingDuration;
+    let duration: number = minimumBookingDuration;
     while (duration + bookingDurationStep <= minutesBeforeNext) {
       duration += bookingDurationStep;
     }

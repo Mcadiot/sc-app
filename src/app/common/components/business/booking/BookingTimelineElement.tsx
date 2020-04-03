@@ -31,19 +31,23 @@ const Icon = styled(FontAwesomeIcon)`
 
 const CurrentVerticalTimelineElement = styled(VerticalTimelineElement)`
   .vertical-timeline-element-content.bounce-in {
-    background-color: ${props => props.theme.colors.timelineCurrentBackgroundColor};
-    color: ${props => props.theme.colors.timelineCurrentColor};
+    background-color: ${(props) => props.theme.colors.timelineCurrentBackgroundColor};
+    color: ${(props) => props.theme.colors.timelineCurrentColor};
   }
   .vertical-timeline-element-content-arrow {
-    border-right-color: ${props => props.theme.colors.timelineCurrentBackgroundColor};
+    border-right-color: ${(props) => props.theme.colors.timelineCurrentBackgroundColor};
   }
 
   .delete-button-div {
-    border: ${props => props.theme.icon.deleteIConBorder};
+    border: ${(props) => props.theme.icon.deleteIConBorder};
 
     .delete-icon {
       margin-left: 0.45em;
       margin-top: 0.25em;
+
+      @media screen and (max-width: 320px) {
+        margin-left: 0.35em;
+      }
     }
   }
 `;
@@ -92,12 +96,12 @@ const mapStateToProps = ({ user }: AppStore): StateToProps => {
   return {
     users: user.users,
     userId: user.userInfo ? user.userInfo.id : "",
-    currentUserName: user.userInfo && user.userInfo.name ? user.userInfo.name : ""
+    currentUserName: user.userInfo && user.userInfo.name ? user.userInfo.name : "",
   };
 };
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => ({
-  doGetUser: (id: string) => dispatch(getUser(id))
+  doGetUser: (id: string) => dispatch(getUser(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookingTimelineElement);
