@@ -65,18 +65,26 @@ const CurrentBooking: React.FC<CurrentBookingProps> = ({ bookings, users, userNa
       {previousBooking && (
         <CardContainer>
           <CardTitle tabIndex={0}>Dernière réunion: </CardTitle>
-          <BookingResume booking={previousBooking} userName={users.users.get(previousBooking.userId) || ""} currentUserName={userName} />
+          <BookingResume
+            booking={previousBooking}
+            userName={users.users ? users.users.get(previousBooking.userId) || "" : ""}
+            currentUserName={userName}
+          />
         </CardContainer>
       )}
       {currentBooking && (
         <CurrentCardContainer>
-          <BookingResume booking={currentBooking} userName={users.users.get(currentBooking.userId) || ""} currentUserName={userName} />
+          <BookingResume
+            booking={currentBooking}
+            userName={users.users ? users.users.get(currentBooking.userId) || "" : ""}
+            currentUserName={userName}
+          />
         </CurrentCardContainer>
       )}
       {nextBooking && (
         <CardContainer>
           <CardTitle tabIndex={0}>Réunion suivante: </CardTitle>
-          <BookingResume booking={nextBooking} userName={users.users.get(nextBooking.userId) || ""} currentUserName={userName} />
+          <BookingResume booking={nextBooking} userName={users.users ? users.users.get(nextBooking.userId) || "" : ""} currentUserName={userName} />
         </CardContainer>
       )}
     </div>

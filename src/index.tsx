@@ -1,18 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 import { ThemeProvider } from "styled-components";
 import App from "./app/screen/App";
-import { store } from "./app/stores/store";
+import { persistor, store } from "./app/stores/store";
 import "./index.css";
 import { lightTheme } from "./ressources/themes/light";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <Provider store={store}>
-    <ThemeProvider theme={lightTheme}>
-      <App />
-    </ThemeProvider>
+    <PersistGate loading={null} persistor={persistor}>
+      <ThemeProvider theme={lightTheme}>
+        <App />
+      </ThemeProvider>
+    </PersistGate>
   </Provider>,
   document.getElementById("root")
 );
