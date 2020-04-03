@@ -2,9 +2,9 @@ import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import styled from "styled-components";
-import { Button } from "../../technical/Button";
-import { FlexDiv } from "../../technical/FlexDiv";
-import { RightDiv } from "../../technical/RightDiv";
+import { Button } from "../../technical/button/Button";
+import { FlexDiv } from "../../technical/layout/FlexDiv";
+import { RightDiv } from "../../technical/layout/RightDiv";
 
 const DivContainer = styled(FlexDiv)`
   min-height: 3em;
@@ -43,25 +43,25 @@ const CheckBoxContainer = styled.div`
 `;
 
 interface BookingFiltersProps {
-  onFilter: (onlyUser: boolean) => void;
+  onFilter: (isOnlyUser: boolean) => void;
   openModale: () => void;
 }
 
 export const BookingFilters: React.FC<BookingFiltersProps> = ({ onFilter, openModale }) => {
-  const [onlyUsers, setOnlyUsers] = React.useState(false);
+  const [isOnlyUsers, setIsOnlyUsers] = React.useState(false);
 
   const onOnlyMineChecked = () => {
-    setOnlyUsers(!onlyUsers);
+    setIsOnlyUsers(!isOnlyUsers);
   };
 
   React.useEffect(() => {
-    onFilter(onlyUsers);
-  }, [onlyUsers, onFilter]);
+    onFilter(isOnlyUsers);
+  }, [isOnlyUsers, onFilter]);
 
   return (
     <DivContainer>
       <CheckBoxContainer>
-        <CheckBox name="onlyMine" type="checkbox" checked={onlyUsers} onChange={onOnlyMineChecked} /> Ne voir que mes réunions
+        <CheckBox name="onlyMine" type="checkbox" checked={isOnlyUsers} onChange={onOnlyMineChecked} /> Ne voir que mes réunions
       </CheckBoxContainer>
       <RightDiv>
         <NewReuButton onClick={openModale}>

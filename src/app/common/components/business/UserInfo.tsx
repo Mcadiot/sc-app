@@ -4,7 +4,7 @@ import React from "react";
 import { connect } from "react-redux";
 import AppStore from "../../../stores/AppStore";
 import { BoldSpan } from "../technical/BoldSpan";
-import { RightDiv } from "../technical/RightDiv";
+import { RightDiv } from "../technical/layout/RightDiv";
 import LogoutButton from "./LogoutButton";
 interface StateToProps {
   userName: string;

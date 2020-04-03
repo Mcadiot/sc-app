@@ -1,17 +1,19 @@
-import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import styled from "styled-components";
-import { roomBaseUrl } from "../../../routes/routesConstants";
+import { roomBaseUrl } from "../../../routes/RoutesConstants";
+import { Booking } from "../../class/Booking";
 import { Resource } from "../../class/Resource";
-import { Card } from "../technical/Card";
-import { GreenCircleDiv, RedCircleDiv } from "../technical/CircleDiv";
-import { ColoredName } from "../technical/ColoredName";
-import { LinkDiv } from "../technical/LinkDiv";
+import { LinkDiv } from "../technical/button/LinkDiv";
+import { Card } from "../technical/layout/Card";
+import { GreenCircleDiv, RedCircleDiv } from "../technical/layout/CircleDiv";
+import { ColoredName } from "../technical/layout/ColoredName";
 
 interface IProps {
   resource: Resource;
   isOccupied: boolean;
+  currentBooking?: Booking;
 }
 
 export type LoginButtonProps = IProps;
@@ -21,7 +23,7 @@ const ButtonDiv = styled.div`
 `;
 
 const OccupiedDivOccupied = styled.div`
-  color: ${props => props.theme.colors.occupiedRoomColor};
+  color: ${(props) => props.theme.colors.occupiedRoomColor};
   font-size: 150%;
   display: inline-flex;
   padding-top: 0.5em;
@@ -29,7 +31,7 @@ const OccupiedDivOccupied = styled.div`
 `;
 
 const OccupiedDivEmpty = styled(OccupiedDivOccupied)`
-  color: ${props => props.theme.colors.freeRoomColor};
+  color: ${(props) => props.theme.colors.freeRoomColor};
 `;
 
 const FullDiv = styled.div`
@@ -47,14 +49,24 @@ const CardContainer = styled(Card)`
   }
 `;
 
-export const RoomCard: React.FC<LoginButtonProps> = props => {
+const DateDiv = styled.div`
+  margin-bottom: 0.5em;
+`;
+
+export const RoomCard: React.FC<LoginButtonProps> = (props) => {
   return (
     <CardContainer>
-      {props.isOccupied ? (
-        <OccupiedDivOccupied>
-          <RedCircleDiv />
-          Salle occupée
-        </OccupiedDivOccupied>
+      {props.isOccupied && props.currentBooking ? (
+        <>
+          <OccupiedDivOccupied>
+            <RedCircleDiv />
+            Salle occupée
+          </OccupiedDivOccupied>
+          <DateDiv>
+            {props.currentBooking.start && props.currentBooking.start.format("HH:mm")} <FontAwesomeIcon icon={faArrowRight} />{" "}
+            {props.currentBooking.end && props.currentBooking.end.format("HH:mm")}
+          </DateDiv>
+        </>
       ) : (
         <OccupiedDivEmpty>
           <GreenCircleDiv />

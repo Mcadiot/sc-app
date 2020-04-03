@@ -1,6 +1,6 @@
-import { BookingStore } from "./booking/bookingStore";
-import { ResourceStore } from "./resource/resourceStore";
-import { UserStore } from "./user/userStore";
+import { BookingStore } from "./booking/BookingStore";
+import { ResourceStore } from "./resource/ResourceStore";
+import { UserStore } from "./user/UserStore";
 
 export default interface AppStore {
   readonly user: UserStore;

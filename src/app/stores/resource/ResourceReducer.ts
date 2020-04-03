@@ -1,5 +1,5 @@
-import { ResourceAction } from "./resourceAction";
-import { ResourceStore } from "./resourceStore";
+import { ResourceAction } from "./ResourceAction";
+import { ResourceStore } from "./ResourceStore";
 
 export const resourceReducer = (resourceStore: ResourceStore, action: ResourceAction): ResourceStore => {
   switch (action.type) {

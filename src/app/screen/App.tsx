@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Banner } from "../common/components/technical/Banner";
-import { Content } from "../common/components/technical/Content";
-import { routes } from "../routes/routes";
+import { Content } from "../common/components/technical/layout/Content";
+import { routes } from "../routes/Routes";
 
 function App() {
   return (

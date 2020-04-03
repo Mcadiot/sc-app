@@ -5,10 +5,10 @@ import { connect } from "react-redux";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import styled, { ThemeContext } from "styled-components";
 import AppStore from "../../../../stores/AppStore";
-import { getUser } from "../../../../stores/user/userAction";
+import { getUser } from "../../../../stores/user/UserAction";
 import { Booking } from "../../../class/Booking";
 import { UsersNames } from "../../../class/UsersNames";
-import { isBookingPassed, isCurrentBooking } from "../../../utils/bookingUtils";
+import { isBookingPassed, isCurrentBooking } from "../../../utils/BookingUtils";
 import { BookingResume } from "./BookingResume";
 
 interface StateToProps {

@@ -5,12 +5,12 @@ import { connect } from "react-redux";
 import { Booking } from "../common/class/Booking";
 import { Resource } from "../common/class/Resource";
 import { RoomCard } from "../common/components/business/RoomCard";
-import { FlexDiv } from "../common/components/technical/FlexDiv";
+import { FlexDiv } from "../common/components/technical/layout/FlexDiv";
 import { Login } from "../common/components/technical/Login";
 import { Title } from "../common/components/technical/Title";
-import { isRoomOccupied } from "../common/utils/bookingUtils";
+import { getCurrentBooking } from "../common/utils/BookingUtils";
 import AppStore from "../stores/AppStore";
-import { getResource } from "../stores/resource/resourceAction";
+import { getResource } from "../stores/resource/ResourceAction";
 
 interface IProps {}
 
@@ -27,11 +27,16 @@ interface DispatchProps {
 export type RoomsProps = IProps & StateToProps & DispatchProps;
 
 const Rooms: React.FC<RoomsProps> = ({ doGetResource, resource, isLoggedIn, bookings }) => {
-  const [isOccupied, setIsOccupied] = React.useState(false);
+  const [currentBooking, setCurrentBooking] = React.useState<Booking | undefined>();
 
   React.useEffect(() => {
     if (bookings) {
-      setIsOccupied(isRoomOccupied(bookings));
+      const currentBooking: Booking | null = getCurrentBooking(bookings);
+      if (currentBooking) {
+        setCurrentBooking(currentBooking);
+      } else {
+        setCurrentBooking(undefined);
+      }
     }
   }, [bookings]);
 
@@ -54,7 +59,7 @@ const Rooms: React.FC<RoomsProps> = ({ doGetResource, resource, isLoggedIn, book
             Salles
           </Title>
 
-          {resource ? <RoomCard resource={resource} isOccupied={isOccupied} /> : "Aucune salle"}
+          {resource ? <RoomCard resource={resource} isOccupied={currentBooking != null} currentBooking={currentBooking} /> : "Aucune salle"}
         </>
       ) : (
         <FlexDiv>
@@ -70,7 +75,7 @@ const mapStateToProps = ({ resource, user, booking }: AppStore): StateToProps =>
 };
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => ({
-  doGetResource: () => dispatch(getResource())
+  doGetResource: () => dispatch(getResource()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Rooms);

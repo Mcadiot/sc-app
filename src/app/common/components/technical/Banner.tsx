@@ -1,7 +1,7 @@
 import React from "react";
 import { UserOrAnonymousContainer } from "../business/UserOrAnonymous";
-import { FlexDiv } from "./FlexDiv";
-import { Header } from "./Header";
+import { FlexDiv } from "./layout/FlexDiv";
+import { Header } from "./layout/Header";
 
 interface BannerProps {
   backUrl?: string;
@@ -9,7 +9,7 @@ interface BannerProps {
 export const Banner: React.FC<BannerProps> = ({ backUrl }) => {
   return (
     <Header>
-      <FlexDiv>
+      <FlexDiv role="banner">
         <UserOrAnonymousContainer />
       </FlexDiv>
     </Header>

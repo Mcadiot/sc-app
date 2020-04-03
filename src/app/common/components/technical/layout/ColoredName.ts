@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const ColoredName = styled.h2`
-  background-color: ${props => props.theme.colors.cardNameBackgroundColor};
-  color: white;
+  background-color: ${(props) => props.theme.colors.cardNameBackgroundColor};
+  color: ${(props) => props.theme.colors.cardNameColor};
   height: 6em;
   font-size: 175%;
   font-weight: bold;

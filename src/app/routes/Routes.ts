@@ -1,6 +1,6 @@
 import Room from "../screen/Room";
 import Rooms from "../screen/Rooms";
-import { roomsUrl, roomUrl } from "./routesConstants";
+import { roomsUrl, roomUrl } from "./RoutesConstants";
 
 export const routes = [
   {

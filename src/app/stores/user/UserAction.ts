@@ -2,8 +2,9 @@ import { Dispatch } from "react";
 import { DataLogin } from "../../common/class/DataLogin";
 import { UserInfo } from "../../common/class/UserInfo";
 import { UserName } from "../../common/class/UsersNames";
-import { axiosInstance } from "../axios";
-import { loginUrl, logoutUrl, meUrl, userUrl } from "../constants";
+import { axiosInstance } from "../Axios";
+import { loginUrl, logoutUrl, meUrl, userUrl } from "../Constants";
+import { displayError, displayTokenError, performIfTokenValid } from "../StoreUtils";
 
 interface LoginAction {
   readonly type: "LOGIN";
@@ -12,10 +13,6 @@ interface LoginAction {
 interface ReceiveLoginAction {
   readonly type: "RECEIVE_LOGIN";
   readonly payload: DataLogin;
-}
-
-interface ErrorLoginAction {
-  readonly type: "ERROR_LOGIN";
 }
 
 export const login = () => {
@@ -30,7 +27,7 @@ export const login = () => {
         getMe(json.data.token)(dispatch);
       })
       .catch(e => {
-        dispatch({ type: "ERROR_LOGIN" });
+        displayError(e);
       });
   };
 };
@@ -42,10 +39,6 @@ interface GetMeAction {
 interface ReceiveGetMeAction {
   readonly type: "RECEIVE_GET_ME";
   readonly payload: UserInfo;
-}
-
-export interface ErrorGetMeAction {
-  readonly type: "ERROR_GET_ME";
 }
 
 export const getMe = (token: string) => {
@@ -63,7 +56,7 @@ export const getMe = (token: string) => {
         dispatch({ type: "RECEIVE_GET_ME", payload: data });
       })
       .catch(e => {
-        dispatch({ type: "ERROR_GET_ME" });
+        displayError(e);
       });
   };
 };
@@ -76,31 +69,30 @@ interface ReceiveLogoutAction {
   readonly type: "RECEIVE_LOGOUT";
 }
 
-interface ErrorLogoutAction {
-  readonly type: "ERROR_LOGOUT";
-}
-
 export const logout = () => {
   return (dispatch: Dispatch<UserAction>, getState: Function) => {
     const state = getState();
     if (state.user) {
       const token = state.user.token;
-      dispatch({ type: "LOGOUT" });
-      axiosInstance
-        .get(logoutUrl, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-        .then(r => r.data)
-        .then(() => {
-          dispatch({ type: "RECEIVE_LOGOUT" });
-        })
-        .catch(e => {
-          dispatch({ type: "ERROR_LOGOUT" });
-        });
+      const expirationDate = state.user.tokenExpirationDate;
+      performIfTokenValid(expirationDate, dispatch, () => {
+        dispatch({ type: "LOGOUT" });
+        axiosInstance
+          .get(logoutUrl, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          })
+          .then(r => r.data)
+          .then(() => {
+            dispatch({ type: "RECEIVE_LOGOUT" });
+          })
+          .catch(e => {
+            displayError(e);
+          });
+      });
     } else {
-      dispatch({ type: "ERROR_LOGOUT" });
+      displayTokenError();
     }
   };
 };
@@ -114,47 +106,47 @@ interface ReceiveGetUserAction {
   readonly payload: UserName;
 }
 
-interface ErrorGetUserAction {
-  readonly type: "Error_GET_USER";
-}
-
 export const getUser = (userId: string) => {
   return (dispatch: Dispatch<UserAction>, getState: Function) => {
     const state = getState();
     if (state.user) {
       const token = state.user.token;
-      dispatch({ type: "GET_USER" });
-      axiosInstance
-        .get(`${userUrl}/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-        .then(r => r.data)
-        .then(json => {
-          const name: UserName = json.data;
-          dispatch({ type: "RECEIVE_GET_USER", payload: name });
-        })
-        .catch(e => {
-          dispatch({ type: "Error_GET_USER" });
-        });
+      const expirationDate = state.user.tokenExpirationDate;
+      performIfTokenValid(expirationDate, dispatch, () => {
+        dispatch({ type: "GET_USER" });
+        axiosInstance
+          .get(`${userUrl}/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          })
+          .then(r => r.data)
+          .then(json => {
+            const name: UserName = json.data;
+            dispatch({ type: "RECEIVE_GET_USER", payload: name });
+          })
+          .catch(e => {
+            displayError(e);
+          });
+      });
     } else {
-      dispatch({ type: "Error_GET_USER" });
+      displayTokenError();
     }
   };
 };
+
+export interface ExpireToken {
+  type: "EXPIRE_TOKEN";
+}
 
 export type UserAction =
   | ReceiveLoginAction
   | LoginAction
   | ReceiveLoginAction
-  | ErrorLoginAction
   | GetMeAction
   | ReceiveGetMeAction
-  | ErrorGetMeAction
   | LogoutAction
   | ReceiveLogoutAction
-  | ErrorLogoutAction
   | GetUserAction
   | ReceiveGetUserAction
-  | ErrorGetUserAction;
+  | ExpireToken;

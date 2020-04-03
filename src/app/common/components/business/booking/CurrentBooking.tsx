@@ -4,8 +4,8 @@ import styled from "styled-components";
 import AppStore from "../../../../stores/AppStore";
 import { Booking } from "../../../class/Booking";
 import { UsersNames } from "../../../class/UsersNames";
-import { getCurrentBooking, getNextBooking, getPreviousBooking } from "../../../utils/bookingUtils";
-import { Card } from "../../technical/Card";
+import { getCurrentBooking, getNextBooking, getPreviousBooking } from "../../../utils/BookingUtils";
+import { Card } from "../../technical/layout/Card";
 import { BookingResume } from "./BookingResume";
 
 const CardContainer = styled(Card)`
@@ -24,11 +24,11 @@ const CardContainer = styled(Card)`
 
 const CurrentCardContainer = styled(CardContainer)`
   min-height: 7em;
-  background-color: ${props => props.theme.colors.timelineCurrentBackgroundColor};
-  color: ${props => props.theme.colors.timelineCurrentColor};
+  background-color: ${(props) => props.theme.colors.timelineCurrentBackgroundColor};
+  color: ${(props) => props.theme.colors.timelineCurrentColor};
 
   h2 {
-    color: ${props => props.theme.colors.timelineCurrentColor} !important;
+    color: ${(props) => props.theme.colors.timelineCurrentColor} !important;
   }
 `;
 

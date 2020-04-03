@@ -1,6 +1,6 @@
-import { sortBooking } from "../../common/utils/bookingUtils";
-import { BookingAction } from "./bookingAction";
-import { BookingStore } from "./bookingStore";
+import { sortBooking } from "../../common/utils/BookingUtils";
+import { BookingAction } from "./BookingAction";
+import { BookingStore } from "./BookingStore";
 
 export const bookingReducer = (bookingStore: BookingStore, action: BookingAction): BookingStore => {
   switch (action.type) {

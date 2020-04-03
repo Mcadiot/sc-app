@@ -2,8 +2,8 @@ import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { connect } from "react-redux";
-import { login } from "../../../stores/user/userAction";
-import { HeaderButton } from "../technical/HeaderButton";
+import { login } from "../../../stores/user/UserAction";
+import { HeaderButton } from "../technical/button/HeaderButton";
 
 interface DispatchProps {
   doLogin: () => void;
@@ -21,7 +21,7 @@ const LoginButton: React.FC<LoginButtonProps> = ({ doLogin }) => {
 };
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => ({
-  doLogin: () => dispatch(login())
+  doLogin: () => dispatch(login()),
 });
 
 export default connect(null, mapDispatchToProps)(LoginButton);

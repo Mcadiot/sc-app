@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { createBooking } from "../../../../stores/booking/bookingAction";
+import { createBooking } from "../../../../stores/booking/BookingAction";
 import { BookingData } from "../../../class/BookingData";
-import { getDurations } from "../../../utils/bookingUtils";
-import { isValidString } from "../../../utils/formUtils";
-import { Button } from "../../technical/Button";
-import { ButtonArea } from "../../technical/ButtonArea";
+import { getDurations } from "../../../utils/BookingUtils";
+import { isValidString } from "../../../utils/FormUtils";
+import { Button } from "../../technical/button/Button";
 import { ErrorBox } from "../../technical/ErrorBox";
+import { ButtonArea } from "../../technical/layout/ButtonArea";
 
 interface IProps {
   minDuration: number;
@@ -29,12 +29,12 @@ const FormContent = styled.div`
 `;
 
 const RequiredSpan = styled.span`
-  color: red;
+  color: ${(props) => props.theme.colors.requiredIconColor};
 `;
 
 export type CreateBookingFormProps = IProps & DispatchProps;
 
-const CreateBookingForm: React.FC<CreateBookingFormProps> = props => {
+const CreateBookingForm: React.FC<CreateBookingFormProps> = (props) => {
   const [name, setName] = React.useState("");
   const [duration, setDuration] = React.useState(props.minDuration);
   const [showError, setShowError] = React.useState(false);
@@ -85,19 +85,39 @@ const CreateBookingForm: React.FC<CreateBookingFormProps> = props => {
       <FormContent>
         {showError && <ErrorBox onClose={closeError}>Le nom doit être renseigné</ErrorBox>}
         <label>
-          <div className="label">
+          <div className="label" id="label-nom">
             Nom <RequiredSpan>*</RequiredSpan>:
           </div>
-          <textarea maxLength={500} name="name" minLength={3} rows={5} value={name} onChange={handleNameChange} required={true} />
+          <textarea
+            maxLength={500}
+            name="name"
+            minLength={3}
+            rows={5}
+            value={name}
+            onChange={handleNameChange}
+            required={true}
+            aria-labelledby="label-nom"
+            aria-required={true}
+          />
         </label>
         <br />
         <label>
-          <div className="label">
+          <div className="label" id="label-time">
             Temps <RequiredSpan>*</RequiredSpan>:
           </div>
           {props.possibleMaxDuration !== 0 ? (
-            <select id="time" name="time" onMouseDown={onClickSelect} onBlur={resizeSelect} onChange={selectChange} value={duration} required={true}>
-              {durations.map(duration => {
+            <select
+              id="time"
+              name="time"
+              onMouseDown={onClickSelect}
+              onBlur={resizeSelect}
+              onChange={selectChange}
+              value={duration}
+              required={true}
+              aria-labelledby="label-time"
+              aria-required={true}
+            >
+              {durations.map((duration) => {
                 return (
                   <option value={duration} key={duration}>
                     {duration} minutes
@@ -123,7 +143,7 @@ const CreateBookingForm: React.FC<CreateBookingFormProps> = props => {
 };
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => ({
-  doCreateBooking: (data: BookingData) => dispatch(createBooking(data))
+  doCreateBooking: (data: BookingData) => dispatch(createBooking(data)),
 });
 
 export default connect(null, mapDispatchToProps)(CreateBookingForm);

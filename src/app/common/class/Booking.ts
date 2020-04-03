@@ -1,5 +1,5 @@
 import moment from "moment";
-import { getDateFromBackString } from "../utils/dateUtils";
+import { getDateFromBackString } from "../utils/DateUtils";
 
 export class Booking {
   public id: string;

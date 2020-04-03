@@ -3,28 +3,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { deleteBooking } from "../../../../stores/booking/bookingAction";
+import { deleteBooking } from "../../../../stores/booking/BookingAction";
 import { Booking } from "../../../class/Booking";
-import { isCurrentBooking } from "../../../utils/bookingUtils";
+import { isCurrentBooking } from "../../../utils/BookingUtils";
 import { Confirm } from "../../technical/Confirm";
-import { FlexDiv } from "../../technical/FlexDiv";
-import { RightDiv } from "../../technical/RightDiv";
+import { FlexDiv } from "../../technical/layout/FlexDiv";
+import { RightDiv } from "../../technical/layout/RightDiv";
 
 const BookingTitle = styled.h2`
   font-size: 120% !important;
-  color: ${props => props.theme.colors.globalColor} !important;
+  color: ${(props) => props.theme.colors.globalColor} !important;
   word-break: break-word;
   width: 95%;
 `;
 
 const CurrentBookingTitle = styled(BookingTitle)`
-  color: ${props => props.theme.colors.timelineIconCurrentColor} !important;
+  color: ${(props) => props.theme.colors.timelineIconCurrentColor} !important;
 `;
 
 const DeleteButtonDiv = styled(RightDiv)`
   width: 2em;
   height: 2em;
-  background-color: ${props => props.theme.colors.deleteIconBackgroundColor};
+  background-color: ${(props) => props.theme.colors.deleteIconBackgroundColor};
   border-radius: 50%;
   margin-top: 1em;
   cursor: pointer;
@@ -33,7 +33,7 @@ const DeleteButtonDiv = styled(RightDiv)`
 const DeleteIcon = styled(FontAwesomeIcon)`
   width: 1.2em;
   height: 1.2em;
-  color: ${props => props.theme.colors.deleteIconColor};
+  color: ${(props) => props.theme.colors.deleteIconColor};
   padding: 0;
   margin-top: 0.4em;
   &.svg-inline--fa.fa-w-14 {
@@ -105,7 +105,7 @@ function getConfirmTitle() {
 }
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => ({
-  doDeleteBooking: (id: string) => dispatch(deleteBooking(id))
+  doDeleteBooking: (id: string) => dispatch(deleteBooking(id)),
 });
 
 export default connect(null, mapDispatchToProps)(BookingName);

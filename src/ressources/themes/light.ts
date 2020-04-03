@@ -8,6 +8,7 @@ export const lightTheme = {
     headerColor: "#ffffff",
     headerButtonBackgroundColor: "#317CAE",
     cardBackgroundColor: "#F3F3F3",
+    cardNameColor: "#ffffff",
     cardNameBackgroundColor: "#DF7B00",
     occupiedRoomColor: "#d93838",
     freeRoomColor: "#18941f",
@@ -22,16 +23,17 @@ export const lightTheme = {
     deleteIconColor: "#ffffff",
     deleteIconBackgroundColor: "#d93838",
     errorBackgroundColor: "#d93838",
-    errorColor: "#ffffff"
+    errorColor: "#ffffff",
+    requiredIconColor: "#d93838",
   },
   font: {
     font: 'normal 500 1em / 1.250em "Roboto",Helvetica,Arial,Verdana,sans-serif',
-    fontSize: "100%"
+    fontSize: "100%",
   },
   form: {
-    inputBorder: "1px solid #cbcbcb"
+    inputBorder: "1px solid #cbcbcb",
   },
   icon: {
-    deleteIConBorder: "2px solid white"
-  }
+    deleteIConBorder: "2px solid white",
+  },
 };

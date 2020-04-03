@@ -8,10 +8,10 @@ import { BookingFilters } from "../common/components/business/booking/BookingFil
 import { BookingTimeline } from "../common/components/business/booking/BookingTimeline";
 import { CreateBookingModal } from "../common/components/business/booking/CreateBookingModal";
 import CurrentBooking from "../common/components/business/booking/CurrentBooking";
-import { Panel, PanelLeft, PanelRight } from "../common/components/technical/Panel";
+import { Panel, PanelLeft, PanelRight } from "../common/components/technical/layout/Panel";
 import AppStore from "../stores/AppStore";
-import { getBookings } from "../stores/booking/bookingAction";
-import { getResource } from "../stores/resource/resourceAction";
+import { getBookings } from "../stores/booking/BookingAction";
+import { getResource } from "../stores/resource/ResourceAction";
 
 interface StateToProps {
   resource?: Resource;
@@ -32,14 +32,14 @@ const PageTitle = styled.h1`
 
 export type RoomProps = StateToProps & DispatchProps;
 
-const Room: React.FC<RoomProps> = ({ bookings, resource, userId, doGetBookings, isLoggedIn }) => {
+const Room: React.FC<RoomProps> = ({ bookings, resource, userId, doGetBookings, isLoggedIn, doGetResource }) => {
   const [visibleBookings, setVisibleBookings] = React.useState(bookings);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   const onFilter = React.useCallback(
     (isOnlyUser: boolean) => {
       if (bookings != null && userId !== "" && isOnlyUser) {
-        const userBookings = bookings.filter(booking => booking.userId === userId);
+        const userBookings = bookings.filter((booking) => booking.userId === userId);
         setVisibleBookings(userBookings);
       } else {
         setVisibleBookings(bookings);
@@ -56,7 +56,10 @@ const Room: React.FC<RoomProps> = ({ bookings, resource, userId, doGetBookings, 
     if (bookings == null) {
       doGetBookings();
     }
-  }, [doGetBookings, bookings]);
+    if (resource == null) {
+      doGetResource();
+    }
+  }, [doGetBookings, bookings, doGetResource, resource]);
 
   if (!isLoggedIn) {
     return <Redirect to="" />;
@@ -95,7 +98,7 @@ const mapStateToProps = ({ resource, booking, user }: AppStore): StateToProps =>
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => ({
   doGetResource: () => dispatch(getResource()),
-  doGetBookings: () => dispatch(getBookings())
+  doGetBookings: () => dispatch(getBookings()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Room);

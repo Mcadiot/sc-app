@@ -1,8 +1,8 @@
 import React from "react";
 import Modal from "react-modal";
-import { Button } from "./Button";
-import { ButtonArea } from "./ButtonArea";
-import { Content } from "./Content";
+import { Button } from "./button/Button";
+import { ButtonArea } from "./layout/ButtonArea";
+import { Content } from "./layout/Content";
 import { ModalTitle } from "./ModalTitle";
 import { StyledModal } from "./StyledModal";
 
@@ -25,8 +25,8 @@ const customStyles: Modal.Styles = {
     right: "auto",
     bottom: "auto",
     marginRight: "-50%",
-    transform: "translate(-50%, -50%)"
-  }
+    transform: "translate(-50%, -50%)",
+  },
 };
 
 export type CreateBookingModalProps = IProps;
