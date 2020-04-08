@@ -10,7 +10,7 @@ const DivContainer = styled(FlexDiv)`
   min-height: 3em;
   line-height: 3em;
 
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 600px) {
     display: block;
 
     button {
@@ -61,12 +61,12 @@ export const BookingFilters: React.FC<BookingFiltersProps> = ({ onFilter, openMo
   return (
     <DivContainer>
       <CheckBoxContainer>
-        <CheckBox name="onlyMine" type="checkbox" checked={isOnlyUsers} onChange={onOnlyMineChecked} /> Ne voir que mes réunions
+        <CheckBox name="onlyMine" type="checkbox" checked={isOnlyUsers} onChange={onOnlyMineChecked} /> Ne voir que mes réservations
       </CheckBoxContainer>
       <RightDiv>
         <NewReuButton onClick={openModale}>
-          <FontAwesomeIcon icon={faPlusCircle} title="Nouvelle réunion" />
-          Nouvelle Réunion
+          <FontAwesomeIcon icon={faPlusCircle} title="Nouvelle réservation" />
+          Nouvelle Réservation
         </NewReuButton>
       </RightDiv>
     </DivContainer>

@@ -70,7 +70,7 @@ const BookingName: React.FC<BookingNameProps> = ({ booking, userId, doDeleteBook
         title={getConfirmTitle()}
         isOpen={isConfirmOpen}
         content={getConfirmContent()}
-        label="supprimer la réunion"
+        label="supprimer la réservation"
         onCancel={onCancelDelete}
         onConfirm={onConfirmDelete}
       />
@@ -81,7 +81,7 @@ const BookingName: React.FC<BookingNameProps> = ({ booking, userId, doDeleteBook
             <DeleteIcon
               className="delete-icon"
               icon={faTrash}
-              title="Supprimer la réunion"
+              title="Supprimer la réservation"
               onClick={() => {
                 setIsConfirmOpen(true);
               }}
@@ -97,11 +97,11 @@ const ContentContainer = styled.div`
   min-height: 5em;
 `;
 function getConfirmContent() {
-  return <ContentContainer>Etes vous sur de vouloir supprimer la réunion?</ContentContainer>;
+  return <ContentContainer>Etes vous sur de vouloir supprimer la réservation?</ContentContainer>;
 }
 
 function getConfirmTitle() {
-  return "Supprimer la réunion";
+  return "Supprimer la réservation";
 }
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => ({

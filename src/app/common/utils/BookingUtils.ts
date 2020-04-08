@@ -57,7 +57,7 @@ export function getCurrentBooking(bookings: Booking[]): Booking | null {
 
 /**
  * Bookings doit être ordonné par date de début croissante
- * @returns la prochaine réunion si celle ci n'est pas la réunion courrante
+ * @returns la prochaine résetvation si celle ci n'est pas la réservation courrante
  */
 export function getNextBooking(bookings: Booking[]): Booking | null {
   const now: moment.Moment = moment();
@@ -74,7 +74,7 @@ export function getNextBooking(bookings: Booking[]): Booking | null {
 
 /**
  * Bookings doit être ordonné par date de début croissante
- *  @returns la dernière réunion si celle ci n'est pas la même que la réunion courrante
+ *  @returns la dernière réservation si celle ci n'est pas la même que la réservation courrante
  */
 export function getPreviousBooking(bookings: Booking[]): Booking | null {
   const now: moment.Moment = moment();

@@ -86,7 +86,7 @@ const CreateBookingForm: React.FC<CreateBookingFormProps> = (props) => {
         {showError && <ErrorBox onClose={closeError}>Le nom doit être renseigné</ErrorBox>}
         <label>
           <div className="label" id="label-nom">
-            Nom <RequiredSpan>*</RequiredSpan>:
+            Nom (3 caractères minimum, 500 maximum)<RequiredSpan>*</RequiredSpan>:
           </div>
           <textarea
             maxLength={500}
@@ -131,7 +131,7 @@ const CreateBookingForm: React.FC<CreateBookingFormProps> = (props) => {
         </label>
       </FormContent>
       <ButtonArea>
-        <Button type="button" onClick={onValidate}>
+        <Button type="button" onClick={onValidate} disabled={props.possibleMaxDuration === 0}>
           Créer
         </Button>
         <Button type="button" onClick={props.onCancel}>

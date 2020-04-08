@@ -25,6 +25,7 @@ export const lightTheme = {
     errorBackgroundColor: "#d93838",
     errorColor: "#ffffff",
     requiredIconColor: "#d93838",
+    buttonDisabledBackgroundColor: "#6D7378",
   },
   font: {
     font: 'normal 500 1em / 1.250em "Roboto",Helvetica,Arial,Verdana,sans-serif',

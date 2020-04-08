@@ -50,9 +50,9 @@ export type CreateBookingModalProps = IProps;
 export const CreateBookingModal: React.FC<CreateBookingModalProps> = ({ isOpen, resource, bookings, onClose }) => {
   const possibleMaxDuration = getPossibleMaxDuration(resource, bookings);
   return (
-    <StyledModal isOpen={isOpen} ariaHideApp={false} style={customStyles} contentLabel="Nouvelle réunion">
+    <StyledModal isOpen={isOpen} ariaHideApp={false} style={customStyles} contentLabel="Nouvelle réservation">
       <Content>
-        <ModalTitle>Nouvelle réunion</ModalTitle>
+        <ModalTitle>Nouvelle réservation</ModalTitle>
         <ModalContent>
           <CreateBookingForm
             minDuration={resource.minimumBookingDuration}

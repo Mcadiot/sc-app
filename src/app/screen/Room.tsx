@@ -80,12 +80,12 @@ const Room: React.FC<RoomProps> = ({ bookings, resource, userId, doGetBookings, 
         <CurrentBooking bookings={bookings} />
       </PanelLeft>
       <PanelRight>
-        <PageTitle>Réunions de la salle {resource && resource.name}</PageTitle>
+        <PageTitle>Réservations de la salle {resource && resource.name}</PageTitle>
         <div>
           <BookingFilters onFilter={onFilter} openModale={openModale} />
         </div>
         <div>
-          {visibleBookings != null && visibleBookings.length > 0 ? <BookingTimeline bookings={visibleBookings} /> : "Aucune réunion de prévu"}
+          {visibleBookings != null && visibleBookings.length > 0 ? <BookingTimeline bookings={visibleBookings} /> : "Aucune réservation de prévu"}
         </div>
       </PanelRight>
     </Panel>

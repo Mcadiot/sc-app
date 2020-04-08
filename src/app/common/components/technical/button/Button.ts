@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const Button = styled.button`
-  background: ${props => props.theme.colors.buttonBackground};
-  color: ${props => props.theme.colors.buttonColor};
-  font: ${props => props.theme.font.font};
-  font-size: ${props => props.theme.font.fontsize};
+  background: ${(props) => props.theme.colors.buttonBackground};
+  color: ${(props) => props.theme.colors.buttonColor};
+  font: ${(props) => props.theme.font.font};
+  font-size: ${(props) => props.theme.font.fontsize};
   line-height: 1.875em;
   padding-right: 1em;
   padding-left: 1em;
@@ -17,5 +17,14 @@ export const Button = styled.button`
   }
   svg {
     margin-right: 0.5em;
+  }
+
+  &:disabled {
+    cursor: auto;
+    background: ${(props) => props.theme.colors.buttonDisabledBackgroundColor};
+
+    &:hover {
+      box-shadow: none;
+    }
   }
 `;
